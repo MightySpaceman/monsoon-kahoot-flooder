@@ -1,2 +1,2 @@
-# monsoon---kahoot-flooder
-Kahoot lobby flooder made in node.js
+# monsoon
+Kahoot lobby flooder made in node.js javascript. Thought of after the frustration of the many deprecated/outdated/buggy flooders out there
