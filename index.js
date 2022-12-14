@@ -1,21 +1,33 @@
-const request = require('request');
-const cheerio = require('cheerio');
+const Kahoot = require("kahoot.js-latest");
+const express = require("express");
+const bodyParser = require('body-parser');
+const app = express();
 
-// Replace http://example.com with the URL of the web page you want to download
-request('http://example.com', (error, response, body) => {
-  if (!error && response.statusCode === 200) {
-    // Parse the HTML code using cheerio
-    const $ = cheerio.load(body);
+app.use(bodyParser.json()); // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
-    // Select the form element with the ID "form-id"
-    const form = $('nickname-form__Form-sc-1mjq176-0 eGhwKC');
+app.use('/style.css', express.static('webapp/style.css'));
 
-    // Set the values of the input fields in the form
-    form.find('input[name="nickname"]').val('me');
+function flood(botName, gamePin) {
+  let client = new Kahoot();
+  client.join(gamePin /* Or any other kahoot game pin */, `kahoot.js${i}`);
+  client.on("Joined", () => {
+  console.log(`${botName}${i} joined`);
+  });
 
-    // Submit the form
-    form.submit();
-  } else {
-    // An error occurred
+}
+
+app.get("/", (req, res) => {
+  res.sendFile("./index.html", { root: __dirname });
+});
+
+app.post('/', (req, res) => {
+  res.send("Flooding...");
+  for (let i = 0; i < req.body.amount; i++) {
+    flood(req.body.botname, req.body.gamePin);
   }
+});
+
+app.listen(80, () => {
+  console.log("Listening...");
 });
